@@ -1,3 +1,10 @@
-Date: 
-Name:
-Stats 198 Project
+---
+title: "Stats 198 Project"
+subtitle: "Due Wednesday, April 22"
+author: "Kina Desai, Allister Wolff,"
+format: pdf
+---
+
+## Use of AI tools
+
+Use
