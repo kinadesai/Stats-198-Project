@@ -1,10 +1,58 @@
 ---
 title: "Stats 198 Project"
 subtitle: "Due Wednesday, April 22"
-author: "Kina Desai, Allister Wolff,"
+author: "Kina Desai, Allister Wolff, Florine Lijesen"
 format: pdf
 ---
 
 ## Use of AI tools
 
 Use
+
+
+
+## Introduction 
+
+Research question: Do higher income countries (measured by GDP per capita) have greater access to clean cooking fuels?
+- potential to go further: 
+
+
+
+
+
+
+## Methodology
+```{r}
+library(tidyverse)
+data <- read_csv("access-to-clean-fuels-for-cooking-vs-gdp-per-capita.csv")
+
+ggplot(data, aes(
+  x = `GDP per capita`,
+  y = `Access to clean fuels and technologies for cooking`
+)) +
+    geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm") +
+  scale_x_log10() +
+  labs(
+    x = "GDP per capita",
+    y = "Access to clean cooking fuels (%)",
+    title = "Access to clean cooking fuels vs GDP per capita"
+  )
+```
+```{r}
+# Add income group column
+data <- data |>
+  mutate(income_group = case_when(
+    `GDP per capita` < 1000  ~ "Low income",
+    `GDP per capita` < 12000 ~ "Middle income",
+    TRUE                     ~ "High income"
+  ))|>
+  filter(`Access to clean fuels and technologies for cooking` <= 100)  # remove bad values
+```
+
+
+
+## Results 
+
+
+## Discussion 
