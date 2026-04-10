@@ -26,18 +26,18 @@ Research question: Do higher income countries (measured by GDP per capita) have 
 library(tidyverse)
 data <- read_csv("access-to-clean-fuels-for-cooking-vs-gdp-per-capita.csv")
 
-ggplot(data, aes(
-  x = `GDP per capita`,
-  y = `Access to clean fuels and technologies for cooking`
-)) +
-    geom_point(alpha = 0.5) +
+data_2023 <- data |>
+  filter(Year == 2023)
+
+ggplot(data_2023, aes(x = `GDP per capita`,
+                      y = `Access to clean fuels and technologies for cooking`)) +
+  geom_point(alpha = 0.5) +
   geom_smooth(method = "lm") +
   scale_x_log10() +
-  labs(
-    x = "GDP per capita",
-    y = "Access to clean cooking fuels (%)",
-    title = "Access to clean cooking fuels vs GDP per capita"
-  )
+  labs(x = "GDP per capita",
+       y = "Access to clean cooking fuels (%)",
+       title = "Access to clean cooking fuels vs GDP per capita (2023)")
+
 ```
 ```{r}
 # Add income group column
