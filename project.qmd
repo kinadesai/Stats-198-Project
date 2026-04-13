@@ -50,8 +50,34 @@ data <- data |>
   filter(`Access to clean fuels and technologies for cooking` <= 100)  # remove bad values
 ```
 
+```{r}
+model1 <- lm(`Access to clean fuels and technologies for cooking` ~ 
+              log(`GDP per capita`), 
+            data = data_2023)
+summary(model1)
+```
 
+```{r}
+library(tidyverse)
+data_2023 <- data_2023 |>
+  mutate(log_gdp = log(`GDP per capita`))
 
+ggplot(data_2023, aes(x = log_gdp,
+                      y = `Access to clean fuels and technologies for cooking`)) +
+  geom_point(alpha = 0.5) +
+  stat_smooth(method = "lm",
+              formula = y ~ x + I(x^2)) +
+  labs(x = "Log GDP per capita",
+       y = "Access to clean cooking fuels (%)")
+```
+```{r}
+model2 <- lm(`Access to clean fuels and technologies for cooking` ~ log(`GDP per capita`) + I(log(`GDP per capita`)^2),
+             data = data_2023)
+summary(model2)
+```
+```{r}
+anova(model1, model2)
+```
 ## Results 
 
 
