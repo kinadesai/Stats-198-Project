@@ -1,7 +1,7 @@
 ---
 title: "Stats 198 Project"
-subtitle: "Due Wednesday, April 22"
-author: "Kina Desai, Allister Wolff, Florine Lijesen"
+subtitle: "Due May 2"
+author: "Kina Desai, Allister Wolff, Florine Lijesen, Alexa Troob"
 format: pdf
 ---
 
@@ -15,8 +15,7 @@ Used for help w formatting for quadratic model
 
 Research question: Do higher income countries (measured by GDP per capita) have greater access to clean cooking fuels?
 - potential to go further: 
-
-
+Is access to clean cooking fuels associated with indoor air pollution death rates?
 
 
 ## Methodology
@@ -24,17 +23,17 @@ Research question: Do higher income countries (measured by GDP per capita) have 
 library(tidyverse)
 data <- read_csv("access-to-clean-fuels-for-cooking-vs-gdp-per-capita.csv")
 
-data_2023 <- data |>
-  filter(Year == 2023)
+data_2019 <- data |>
+  filter(Year == 2019)
 
-ggplot(data_2023, aes(x = `GDP per capita`,
+ggplot(data_2019, aes(x = `GDP per capita`,
                       y = `Access to clean fuels and technologies for cooking`)) +
   geom_point(alpha = 0.5) +
   geom_smooth(method = "lm") +
   scale_x_log10() +
   labs(x = "GDP per capita",
        y = "Access to clean cooking fuels (%)",
-       title = "Access to clean cooking fuels vs GDP per capita (2023)")
+       title = "Access to clean cooking fuels vs GDP per capita (2019)")
 
 ```
 ```{r}
@@ -51,16 +50,16 @@ data <- data |>
 ```{r}
 model1 <- lm(`Access to clean fuels and technologies for cooking` ~ 
               log(`GDP per capita`), 
-            data = data_2023)
+            data = data_2019)
 summary(model1)
 ```
 
 ```{r}
 library(tidyverse)
-data_2023 <- data_2023 |>
+data_2019 <- data_2019 |>
   mutate(log_gdp = log(`GDP per capita`))
 
-ggplot(data_2023, aes(x = log_gdp,
+ggplot(data_2019, aes(x = log_gdp,
                       y = `Access to clean fuels and technologies for cooking`)) +
   geom_point(alpha = 0.5) +
   stat_smooth(method = "lm",
@@ -70,7 +69,7 @@ ggplot(data_2023, aes(x = log_gdp,
 ```
 ```{r}
 model2 <- lm(`Access to clean fuels and technologies for cooking` ~ log(`GDP per capita`) + I(log(`GDP per capita`)^2),
-             data = data_2023)
+             data = data_2019)
 summary(model2)
 ```
 ```{r}
@@ -85,14 +84,14 @@ rural_vs_urban <- share_of_rural_population_with_electricity_access_vs_share_of_
 ```
 
 ```{r}
-rural_vs_urban_2023 <- rural_vs_urban |>
-  filter(Year == 2023)
+rural_vs_urban_2019 <- rural_vs_urban |>
+  filter(Year == 2019)
 ```
 ```{r}
-rural_vs_urban_2023 <- as.data.frame(rural_vs_urban_2023)
+rural_vs_urban_2019 <- as.data.frame(rural_vs_urban_2019)
 ```
 ```{r}
-joined_data <- full_join(data_2023, rural_vs_urban_2023, by = "Entity")
+joined_data <- full_join(data_2019, rural_vs_urban_2019, by = "Entity")
 ```
 ```{r}
 joined_data <- joined_data |>
@@ -104,16 +103,35 @@ model <- lm (`Access to clean fuels and technologies for cooking`~ log_gdp + rur
 summary(model)
 ```
 ```{r}
-
+library(readr)
+deaths_attributed_to_household_air_pollution_vs_deaths_attributed_to_ambient_air_pollution <- read_csv("deaths-attributed-to-household-air-pollution-vs-deaths-attributed-to-ambient-air-pollution.csv")
+```
+```{r}
+deaths <- deaths_attributed_to_household_air_pollution_vs_deaths_attributed_to_ambient_air_pollution
+```
+```{r}
+deaths <- deaths |>
+mutate(
+    indoor_death_rate = `Deaths attributed to household air pollution` / Population * 100000
+  )
+```
+```{r}
+merged <- full_join(data_2019, deaths, by = "Entity")
+```
+```{r}
+model3 <- lm(indoor_death_rate ~ `Access to clean fuels and technologies for cooking` + log_gdp,
+  data = merged)
+summary(model3)
 ```
 
+
 ## Results 
-1. When fitting a linear relationship between GDP per capita and access to clean cooking fuels, a one-unit increase in log GDP per capita is associated with an average increase of 26.98% in access to clean cooking fuels. Very statistically significant. 
+1. When fitting a linear relationship between GDP per capita and access to clean cooking fuels, a one-unit increase in log GDP per capita is associated with an average increase of 28.17% in access to clean cooking fuels. Very statistically significant. 
 
 2. [Maybe remove this component? Not sure if needed] We noticed that the linearity assumption may not be fulfilled when fitting a linear relationship, so we tried fitting a quadratic relationship between GDP and access, which appeared to be a better fit, suggesting that for low-income countries, rise in GDP is important for increase fuel access, but this plateaus at a certain GDP level. ANOVA test affirms that the quadratic is a better fit. 
 
-3. We then added a control for difference in % of urban and rural population with access to clean cooking fuels in a given country. While controlling for this rural/urban gap, a one-unit increase in log GDP is associated with an average increase of 19.50212% in access to clean cooking fuels. When holding log GDP constant, a one-unit increase in the gap in access between rural and urban population in a country is associated with a 0.56202% decrease in access to clean cooking fuels (statistically significant), suggesting that equality within a country, despite GDP, is also important for access. 
+3. We then added a control for difference in % of urban and rural population with access to clean cooking fuels in a given country. While controlling for this rural/urban gap, a one-unit increase in log GDP is associated with an average increase of 20.34% in access to clean cooking fuels. When holding log GDP constant, a one-unit increase in the gap in access between rural and urban population in a country is associated with a 0.58% decrease in access to clean cooking fuels (statistically significant), suggesting that equality within a country, despite GDP, is also important for access. 
 
-4. As a final component to make more public health related -- do a regression for access to clean cooking fuels and deaths from indoor pollution. 
+4. Model 3 is doing a linear regression between indoor death rate (number of deaths from indoor air pollution/100,000 people) and access to clean cooking fuels, adjusting for GDP. While controlling for GDP, a one percent increase in access to clean cooking fuels is associated with an average decrease of 0.18 deaths per 100,000 people, which is statistically significant (p = 0.03). This suggests that access to clean cooking fuel is the driving factor for air pollution deaths -- not just GDP alone.[*could be good to also add graph for visual relationship]
 
 ## Discussion 
