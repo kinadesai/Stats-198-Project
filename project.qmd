@@ -103,6 +103,9 @@ joined_data <- joined_data |>
 model <- lm (`Access to clean fuels and technologies for cooking`~ log_gdp + rural_urban_gap, data = joined_data)
 summary(model)
 ```
+```{r}
+
+```
 
 ## Results 
 1. When fitting a linear relationship between GDP per capita and access to clean cooking fuels, a one-unit increase in log GDP per capita is associated with an average increase of 26.98% in access to clean cooking fuels. Very statistically significant. 
