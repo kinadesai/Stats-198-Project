@@ -7,7 +7,7 @@ format: pdf
 
 ## Use of AI tools
 
-Use
+Used for help w formatting for quadratic model
 
 
 
@@ -15,8 +15,6 @@ Use
 
 Research question: Do higher income countries (measured by GDP per capita) have greater access to clean cooking fuels?
 - potential to go further: 
-
-
 
 
 
@@ -78,7 +76,41 @@ summary(model2)
 ```{r}
 anova(model1, model2)
 ```
-## Results 
+```{r}
+library(readr)
+share_of_rural_population_with_electricity_access_vs_share_of_total_population_with_electricity_access <- read_csv("share-of-rural-population-with-electricity-access-vs-share-of-total-population-with-electricity-access.csv")
+```
+```{r}
+rural_vs_urban <- share_of_rural_population_with_electricity_access_vs_share_of_total_population_with_electricity_access
+```
 
+```{r}
+rural_vs_urban_2023 <- rural_vs_urban |>
+  filter(Year == 2023)
+```
+```{r}
+rural_vs_urban_2023 <- as.data.frame(rural_vs_urban_2023)
+```
+```{r}
+joined_data <- full_join(data_2023, rural_vs_urban_2023, by = "Entity")
+```
+```{r}
+joined_data <- joined_data |>
+  mutate(rural_urban_gap = `Share of urban population with access` - 
+          `Share of rural population with access`)
+```
+```{r}
+model <- lm (`Access to clean fuels and technologies for cooking`~ log_gdp + rural_urban_gap, data = joined_data)
+summary(model)
+```
+
+## Results 
+1. When fitting a linear relationship between GDP per capita and access to clean cooking fuels, a one-unit increase in log GDP per capita is associated with an average increase of 26.98% in access to clean cooking fuels. Very statistically significant. 
+
+2. [Maybe remove this component? Not sure if needed] We noticed that the linearity assumption may not be fulfilled when fitting a linear relationship, so we tried fitting a quadratic relationship between GDP and access, which appeared to be a better fit, suggesting that for low-income countries, rise in GDP is important for increase fuel access, but this plateaus at a certain GDP level. ANOVA test affirms that the quadratic is a better fit. 
+
+3. We then added a control for difference in % of urban and rural population with access to clean cooking fuels in a given country. While controlling for this rural/urban gap, a one-unit increase in log GDP is associated with an average increase of 19.50212% in access to clean cooking fuels. When holding log GDP constant, a one-unit increase in the gap in access between rural and urban population in a country is associated with a 0.56202% decrease in access to clean cooking fuels (statistically significant), suggesting that equality within a country, despite GDP, is also important for access. 
+
+4. As a final component to make more public health related -- do a regression for access to clean cooking fuels and deaths from indoor pollution. 
 
 ## Discussion 
