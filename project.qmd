@@ -36,6 +36,7 @@ ggplot(data_2019, aes(x = `GDP per capita`,
        title = "Access to clean cooking fuels vs GDP per capita (2019)")
 
 ```
+
 ```{r}
 # Add income group column
 data <- data |>
@@ -52,6 +53,14 @@ model1 <- lm(`Access to clean fuels and technologies for cooking` ~
               log(`GDP per capita`), 
             data = data_2019)
 summary(model1)
+```
+```{r}
+plot(model1$fitted.values,
+     resid(model1),
+     xlab = "Fitted values",
+     ylab = "Residuals")
+
+abline(h = 0, col = "red")
 ```
 
 ```{r}
@@ -72,6 +81,15 @@ model2 <- lm(`Access to clean fuels and technologies for cooking` ~ log(`GDP per
              data = data_2019)
 summary(model2)
 ```
+```{r}
+plot(model2$fitted.values,
+     resid(model2),
+     xlab = "Fitted values",
+     ylab = "Residuals")
+
+abline(h = 0, col = "red")
+```
+
 ```{r}
 anova(model1, model2)
 ```
@@ -119,19 +137,41 @@ mutate(
 merged <- full_join(data_2019, deaths, by = "Entity")
 ```
 ```{r}
+
+ggplot(merged, aes(x = `Access to clean fuels and technologies for cooking`,
+                      y = `indoor_death_rate`)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm") +
+  scale_x_log10() +
+  scale_y_log10() +
+  labs(x = "Access to clean cooking fuels (%)",
+       y = "Number of deaths from indoor air pollution/100,000 people",
+       title = "Indoor air pollution death rate vs. access to clean cooking fuels (2019)")
+```
+
+
+```{r}
 model3 <- lm(indoor_death_rate ~ `Access to clean fuels and technologies for cooking` + log_gdp,
   data = merged)
 summary(model3)
 ```
 
+```{r}
+plot(model3$fitted.values,
+     resid(model3),
+     xlab = "Fitted values",
+     ylab = "Residuals")
+
+abline(h = 0, col = "red")
+```
 
 ## Results 
 1. When fitting a linear relationship between GDP per capita and access to clean cooking fuels, a one-unit increase in log GDP per capita is associated with an average increase of 28.17% in access to clean cooking fuels. Very statistically significant. 
 
-2. [Maybe remove this component? Not sure if needed] We noticed that the linearity assumption may not be fulfilled when fitting a linear relationship, so we tried fitting a quadratic relationship between GDP and access, which appeared to be a better fit, suggesting that for low-income countries, rise in GDP is important for increase fuel access, but this plateaus at a certain GDP level. ANOVA test affirms that the quadratic is a better fit. 
+2. [Maybe remove this component? Not sure if needed] We noticed that the linearity assumption may not be fulfilled when fitting a linear relationship, so we tried fitting a quadratic relationship between GDP and access, which appeared to be a better fit, suggesting that for low-income countries, rise in GDP is important for increase fuel access, but this plateaus at a certain GDP level. ANOVA test affirms that the quadratic is a better fit. Also residual plots show assumptions are better satisfied with quadratic model.  
 
 3. We then added a control for difference in % of urban and rural population with access to clean cooking fuels in a given country. While controlling for this rural/urban gap, a one-unit increase in log GDP is associated with an average increase of 20.34% in access to clean cooking fuels. When holding log GDP constant, a one-unit increase in the gap in access between rural and urban population in a country is associated with a 0.58% decrease in access to clean cooking fuels (statistically significant), suggesting that equality within a country, despite GDP, is also important for access. 
 
-4. Model 3 is doing a linear regression between indoor death rate (number of deaths from indoor air pollution/100,000 people) and access to clean cooking fuels, adjusting for GDP. While controlling for GDP, a one percent increase in access to clean cooking fuels is associated with an average decrease of 0.18 deaths per 100,000 people, which is statistically significant (p = 0.03). This suggests that access to clean cooking fuel is the driving factor for air pollution deaths -- not just GDP alone.[*could be good to also add graph for visual relationship]
+4. Model 3 is doing a linear regression between indoor death rate (number of deaths from indoor air pollution/100,000 people) and access to clean cooking fuels, adjusting for GDP. While controlling for GDP, a one percent increase in access to clean cooking fuels is associated with an average decrease of 0.18 deaths per 100,000 people, which is statistically significant (p = 0.03). This suggests that access to clean cooking fuel is the driving factor for air pollution deaths -- not just GDP alone. (does residual plot satisfy assumptions?)
 
 ## Discussion 
