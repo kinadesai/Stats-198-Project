@@ -7,16 +7,13 @@ format: pdf
 
 ## Use of AI tools
 
-Used for help w formatting for quadratic model
+Used for help w formatting for quadratic model. Grammarly was used for grammar. 
 
 
 
 ## Introduction 
 
-Research question: Do higher income countries (measured by GDP per capita) have greater access to clean cooking fuels?
-- potential to go further: 
-Is access to clean cooking fuels associated with indoor air pollution death rates?
-
+How are GDP per capita and rural–urban infrastructure disparities associated with access to clean cooking fuels and technologies, and how does clean cooking access relate to indoor air pollution mortality across countries?
 
 ## Methodology
 
@@ -185,3 +182,26 @@ When looking at the relationship between GDP per capita and the acess to clean f
 4. Lastlty, in Model 3 we looked ar the relationship between acsess to clean fuel and indoor air pollution (number of deaths from indoor air pollution/100,000 people), while adjesting for GDP per capita. While controlling for GDP, a one percent increase in access to clean cooking fuels is associated with an average decrease of 0.18 deaths per 100,000 people, which is statistically significant (p = 0.03). This suggests that access to clean cooking fuel has a negative association with indoor air pollution death rates not just GDP alone. Despite this, the model explains that there is not much variablility in dealth rates and the reisdual plot suggests that there are possible outliers and uneven spread. This means that the association is statistically significant, but should be understood cautiously and not assume a causal relationship. 
 
 ## Discussion 
+
+The findings of this study broadly support the central research question that economic development and infrastructure disparities are associated with access to clean cooking fuels and technologies across countries. Across all models, GDP per capita was positively associated with clean cooking access, suggesting that economic development plays an important role in expanding household energy infrastructure. However, the results also indicate that economic growth alone does not fully explain differences in clean cooking access, as disparities between rural and urban communities were also strongly associated with lower overall access rates.
+
+In the initial linear regression model, higher GDP per capita was associated with an increase in clean cooking access. However, the residual plots revealed a lack of linearity. This prompted the use of a quadratic regression model, which provided a significantly better fit. The quadratic results suggest that access improvements begin to plateau at higher income levels, a pattern consistent with diminishing returns. This is where economic growth may have a disproportionately larger impact in lower-income countries than in nations where there is near universal access.
+  
+Adding measures of rural and urban disparities further strengthened the analysis, showing that economic development alone does not fully explain disparities in clean cooking access. Even after controlling for GDP per capita, countries with wider disparities between rural and urban electrification tended to report lower overall access to clean cooking fuels. This finding suggests that access to clean cooking fuels is influenced not only by how wealthy a country is overall, but also by how evenly resources and infrastructure are distributed within the country. Even in countries with higher GDP per capita, rural communities and underserved populations may still face barriers to accessing reliable, clean energy sources. Economic growth alone may not guarantee equal improvements in living conditions for all populations.
+
+The final model examining indoor air pollution mortality also supports the broader public health implications of clean cooking access. Countries with greater access to clean cooking fuels were found to experience lower indoor air pollution death rates. This aligns with existing research that has linked increased indoor air pollution to respiratory and cardiovascular disease. However, the model suggests that clean cooking access and GDP per capita explain only a small proportion of variation in indoor air pollution mortality due to the low adjusted R2 value. This likely means that additional factors such as healthcare access, housing conditions, environmental regulations, smoking prevalence, and ventilation quality also affect the variation in indoor air pollution mortality. Therefore, although the relationship observed was statistically significant, the results should be interpreted cautiously and not as evidence of direct causation.
+
+It is important to note, however, that there are some limitations with this study. The first one is that GDP per capita was used as an indicator of wealth, and while it is a good way to measure average wealth, it can mask extreme cases of poverty and fails to account for cost-of-living differences, which influence access to clean cooking fuels. Further, in this data set, observations were excluded that were missing data which could have impacted the results. It is found that many high-income countries have better and more reliable reporting systems than low-income countries, which potentially biases the results. Another limitation is that the study relied on cross-sectional data that only spanned one year, which limits the ability to evaluate differences over time, reducing causality. The study can determine correlations between GDP and cooking levels; however, it does not have the evidence to make statements about whether increases in GDP directly cause improvements in clean cooking access. Lastly, these data sets were obtained from reputable sources; however, there still may be concerns about the reliability and validity of the data. This can be attributed to the fact that we do not know how they collected the data in each country and what each of their reporting standards is. A key part of this difference in collection could be, as mentioned earlier, that estimates of indoor air pollution mortality may be less accurate in low-income settings, as they have limited healthcare infrastructure and a less reliable reporting system. Additionally, measures such as “access to clean cooking fuels” may also be inaccurate to the actual situation, as some have access but cannot afford to use it for every meal, or fuel supplies are unreliable. 
+
+If this study were to be performed again, we would use a longitudinal analysis that spans multiple years to strengthen the ability to examine trends and changes over time. Finding more data that includes variables such as education level, healthcare access, government energy policies, or income inequality could help strengthen the analysis, similar to what we saw with looking at urban and rural settings. Additionally, using data that is from the household level rather than country-level data could help account for the limitations mentioned. By accounting for the feasibility and fidelity of using clean cooking fuels, there will be more accurate data from low-resource settings. Looking into the future, additional research could investigate whether targeted policy interventions or infrastructure investments improve access to clean cooking fuels independently of broader economic growth. Government subsidization of clean cooking fuels or investments in rural gas infrastructure could potentially play a role in helping increase access to clean cooking fuels in low-income households. Addressing these gaps, such as socioeconomic status and living situation, will be essential to finding ways to increase access to clean cooking fuels.
+
+Overall, the findings suggest that increasing access to clean cooking fuels is closely tied to both economic development and infrastructure equity. Expanding clean household energy access may not only improve quality of life but also reduce preventable health burdens associated with indoor air pollution, particularly in lower-income and rural populations.
+
+
+
+
+
+
+
+
+
