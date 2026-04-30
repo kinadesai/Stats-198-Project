@@ -13,6 +13,9 @@ Used for help w formatting for quadratic model. Grammarly was used for grammar.
 
 ## Introduction 
 
+Access to clean cooking fuels and technologies remains an important global public health and development issue. Even as energy infrastructure has advanced, many households worldwide are still relying on fuels such as wood, charcoal, coal, and agricultural waste for daily cooking. Burning these specific fuels indoors produces harmful air pollution that has been linked to serious health problems, including respiratory and cardiovascular disease. The World Health Organization has identified exposure to household air pollution as one of the leading causes of preventable deaths, especially in low and middle-income countries. As a result, improving access to clean cooking technologies has become an important target of global health and sustainability initiatives to help reduce health disparities and improve quality of life.
+
+
 How are GDP per capita and rural–urban infrastructure disparities associated with access to clean cooking fuels and technologies, and how does clean cooking access relate to indoor air pollution mortality across countries?
 
 ## Methodology
