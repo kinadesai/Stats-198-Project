@@ -19,6 +19,15 @@ Is access to clean cooking fuels associated with indoor air pollution death rate
 
 
 ## Methodology
+
+The methodology we will be using to investigate the research question of whether higher income countries (measured by GDP per capital) have greater access to clean cooking fuels is data from 2019 from the "Access to clean fuels for cooking vs. GDP per capita" dataset. The variable y (the outcome) is the percentage of the population in country i with access to clean cooking fuels and the variable x is the GDP per capita for country i. GDP per capita is skewed right, so to help analyze this data we have decided to use a log function to help linearize the relationship between x and y. 
+
+The first model we use is a linear regression model. A linear regression model is used as opposed to a scatterpolot because if we were to plot GDP per capita versus access to clean cooking fuels, the data would be nonlinear. A logarithmic transformation of GDP allows the data to have linearity and thus is easier to interpret. Additionally, the linear regression model directly addresses the research question regarding the relationship between increasing GDP levels and access to clean cooking fuels. The equation for this linear regression model is Yi=β0+β1*log(Xi). 28.17, or the slope term β1, represents the average change in access to clean cooking fuels given a one-unit increase in log GDP per capita, while adjusting for all other predictors. 
+
+The second model we use is an extended form of a linear regression model that includes quadratics. Adding the quadratic term to the linear regression model allows for a potential curvature of the data points to be observed. Also, looking at the data points shows that there may be evidence of diminishing increases in access to clean cooking fuels at higher income levels, which could be shown through a quadratic linear regression model. Since the ANOVA test shows a significant reduction in the residual sum of squares, we can conclude that this quadratic linear regression model is a better fit to the data than the above/previous linear regression model. The p-value, which is 1.471e-07, is statistically significant at the alpha equals 0.05 significance level and since the p-value is very small there is sufficient evidence to assume that this quadratic linear regression model reduces residual variation and is the better fit model compared to the above linear regression model. 
+
+Additionally, we must evaluate the assumptions for the models. The assumption of linearity for the first model is likely violated since the residuals are not symmetrical around the y=0 line on the residual plot, but for the second model (quadratic linear regression model) the assumption of linearity is better satisfied. The second assumption is independence and for both models this is satisfied as 
+
 ```{r}
 library(tidyverse)
 data <- read_csv("access-to-clean-fuels-for-cooking-vs-gdp-per-capita.csv")
