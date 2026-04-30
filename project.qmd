@@ -26,7 +26,9 @@ The first model we use is a linear regression model. A linear regression model i
 
 The second model we use is an extended form of a linear regression model that includes quadratics. Adding the quadratic term to the linear regression model allows for a potential curvature of the data points to be observed. Also, looking at the data points shows that there may be evidence of diminishing increases in access to clean cooking fuels at higher income levels, which could be shown through a quadratic linear regression model. Since the ANOVA test shows a significant reduction in the residual sum of squares, we can conclude that this quadratic linear regression model is a better fit to the data than the above/previous linear regression model. The p-value, which is 1.471e-07, is statistically significant at the alpha equals 0.05 significance level and since the p-value is very small there is sufficient evidence to assume that this quadratic linear regression model reduces residual variation and is the better fit model compared to the above linear regression model. 
 
-Additionally, we must evaluate the assumptions for the models. The assumption of linearity for the first model is likely violated since the residuals are not symmetrical around the y=0 line on the residual plot, but for the second model (quadratic linear regression model) the assumption of linearity is better satisfied. The second assumption is independence and for both models this is satisfied as 
+Additionally, we must evaluate the assumptions for the models. The assumption of linearity for the first model is likely violated since the residuals are not symmetrical around the y=0 line on the residual plot, but for the second model (quadratic linear regression model) the assumption of linearity is better satisfied. The second assumption is independence and for both models this is satisfied as knowing something about one country does not tell you anything about another country. The next assumption is constant variance. The residual plot shows that for the first model constant variance may be violated but this assumption is more likely satisfied for the second model where residuals are more evenly distributed across the fitted value. The fourth assumption is normality. For both of the models, the histogram of the residuals follows an approximately normal distribution, thus this assumption is satisified for both models. 
+
+This methodology was chosen because we are examining association, not causation, which is what a regression model does. Additionally, the data is cross-sectional which is also best suited with a linear model. The quadratic linear regression model was chosen as the preferred methodology because it is more easily interpreted, better captures nonlinear patterns, and is the better fit for the data points in the model. Furthermore, this methodology is easily reproducible by other researchers. To reproduce these results, one would filter the dataset to include only the year 2019, remove missing or invalid values, use the log GDP per capita, fit the linear regression model and quadratic linear regression model, and assess the assumptions. 
 
 ```{r}
 library(tidyverse)
@@ -71,6 +73,14 @@ plot(model1$fitted.values,
 
 abline(h = 0, col = "red")
 ```
+```{r}
+hist(resid(model1),
+     main = "Histogram of Residuals (Model 1)",
+     xlab = "Residuals",
+     breaks = 20)
+```
+
+
 
 ```{r}
 library(tidyverse)
@@ -98,6 +108,13 @@ plot(model2$fitted.values,
 
 abline(h = 0, col = "red")
 ```
+```{r}
+hist(resid(model2),
+     main = "Histogram of Residuals (Model 2)",
+     xlab = "Residuals",
+     breaks = 20)
+```
+
 
 ```{r}
 anova(model1, model2)
