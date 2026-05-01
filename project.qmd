@@ -31,6 +31,8 @@ Additionally, we must evaluate the assumptions for the models. The assumption of
 This methodology was chosen because we are examining association, not causation, which is what a regression model does. Additionally, the data is cross-sectional which is also best suited with a linear model. The quadratic linear regression model was chosen as the preferred methodology because it is more easily interpreted, better captures nonlinear patterns, and is the better fit for the data points in the model. Furthermore, this methodology is easily reproducible by other researchers. To reproduce these results, one would filter the dataset to include only the year 2019, remove missing or invalid values, use the log GDP per capita, fit the linear regression model and quadratic linear regression model, and assess the assumptions. 
 
 ```{r}
+#| echo: false
+#| message: false
 library(tidyverse)
 data <- read_csv("access-to-clean-fuels-for-cooking-vs-gdp-per-capita.csv")
 
@@ -49,6 +51,8 @@ ggplot(data_2019, aes(x = `GDP per capita`,
 ```
 
 ```{r}
+#| echo: false
+#| message: false
 # Add income group column
 data <- data |>
   mutate(income_group = case_when(
@@ -60,12 +64,16 @@ data <- data |>
 ```
 
 ```{r}
+#| echo: false
+#| message: false
 model1 <- lm(`Access to clean fuels and technologies for cooking` ~ 
               log(`GDP per capita`), 
             data = data_2019)
 summary(model1)
 ```
 ```{r}
+#| echo: false
+#| message: false
 plot(model1$fitted.values,
      resid(model1),
      xlab = "Fitted values",
@@ -74,6 +82,8 @@ plot(model1$fitted.values,
 abline(h = 0, col = "red")
 ```
 ```{r}
+#| echo: false
+#| message: false
 hist(resid(model1),
      main = "Histogram of Residuals (Model 1)",
      xlab = "Residuals",
@@ -83,6 +93,8 @@ hist(resid(model1),
 
 
 ```{r}
+#| echo: false
+#| message: false
 library(tidyverse)
 data_2019 <- data_2019 |>
   mutate(log_gdp = log(`GDP per capita`))
@@ -96,11 +108,15 @@ ggplot(data_2019, aes(x = log_gdp,
        y = "Access to clean cooking fuels (%)")
 ```
 ```{r}
+#| echo: false
+#| message: false
 model2 <- lm(`Access to clean fuels and technologies for cooking` ~ log(`GDP per capita`) + I(log(`GDP per capita`)^2),
              data = data_2019)
 summary(model2)
 ```
 ```{r}
+#| echo: false
+#| message: false
 plot(model2$fitted.values,
      resid(model2),
      xlab = "Fitted values",
@@ -109,6 +125,8 @@ plot(model2$fitted.values,
 abline(h = 0, col = "red")
 ```
 ```{r}
+#| echo: false
+#| message: false
 hist(resid(model2),
      main = "Histogram of Residuals (Model 2)",
      xlab = "Residuals",
@@ -117,53 +135,78 @@ hist(resid(model2),
 
 
 ```{r}
+#| echo: false
+#| message: false
 anova(model1, model2)
 ```
 ```{r}
+#| echo: false
+#| message: false
 library(readr)
 share_of_rural_population_with_electricity_access_vs_share_of_total_population_with_electricity_access <- read_csv("share-of-rural-population-with-electricity-access-vs-share-of-total-population-with-electricity-access.csv")
 ```
 ```{r}
+#| echo: false
+#| message: false
 rural_vs_urban <- share_of_rural_population_with_electricity_access_vs_share_of_total_population_with_electricity_access
 ```
 
 ```{r}
+#| echo: false
+#| message: false
 rural_vs_urban_2019 <- rural_vs_urban |>
   filter(Year == 2019)
 ```
 ```{r}
+#| echo: false
+#| message: false
 rural_vs_urban_2019 <- as.data.frame(rural_vs_urban_2019)
 ```
 ```{r}
+#| echo: false
+#| message: false
 joined_data <- full_join(data_2019, rural_vs_urban_2019, by = "Entity")
 ```
 ```{r}
+#| echo: false
+#| message: false
 joined_data <- joined_data |>
   mutate(rural_urban_gap = `Share of urban population with access` - 
           `Share of rural population with access`)
 ```
 ```{r}
+#| echo: false
+#| message: false
 model <- lm (`Access to clean fuels and technologies for cooking`~ log_gdp + rural_urban_gap, data = joined_data)
 summary(model)
 ```
 ```{r}
+#| echo: false
+#| message: false
 library(readr)
 deaths_attributed_to_household_air_pollution_vs_deaths_attributed_to_ambient_air_pollution <- read_csv("deaths-attributed-to-household-air-pollution-vs-deaths-attributed-to-ambient-air-pollution.csv")
 ```
 ```{r}
+#| echo: false
+#| message: false
 deaths <- deaths_attributed_to_household_air_pollution_vs_deaths_attributed_to_ambient_air_pollution
 ```
 ```{r}
+#| echo: false
+#| message: false
 deaths <- deaths |>
 mutate(
     indoor_death_rate = `Deaths attributed to household air pollution` / Population * 100000
   )
 ```
 ```{r}
+#| echo: false
+#| message: false
 merged <- full_join(data_2019, deaths, by = "Entity")
 ```
 ```{r}
-
+#| echo: false
+#| message: false
 ggplot(merged, aes(x = `Access to clean fuels and technologies for cooking`,
                       y = `indoor_death_rate`)) +
   geom_point(alpha = 0.4) +
@@ -177,12 +220,16 @@ ggplot(merged, aes(x = `Access to clean fuels and technologies for cooking`,
 
 
 ```{r}
+#| echo: false
+#| message: false
 model3 <- lm(indoor_death_rate ~ `Access to clean fuels and technologies for cooking` + log_gdp,
   data = merged)
 summary(model3)
 ```
 
 ```{r}
+#| echo: false
+#| message: false
 plot(model3$fitted.values,
      resid(model3),
      xlab = "Fitted values",
